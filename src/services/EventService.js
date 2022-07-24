@@ -1,6 +1,7 @@
 //We need to have all the code to the API calls and axios and one place that can be uset within the whole app.
 //If we have the axios imported in each component then every component woulld make its instance of the axios 
 //and the code will be messy and hard to debug because of API calls code everywhere.
+//Axios can be installed in vue CLI with 'npm install axios --save' command.
 import axios from 'axios'
 
 //Single Axios instance for our app.
