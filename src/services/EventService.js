@@ -20,5 +20,8 @@ export default {
     getEvents() {
         //'/events' will be added at the end of our baseURL.
         return apiClient.get('/events')
+    },
+    getEvent(id) {
+        return apiClient.get('/events/' + id)
     }
 }

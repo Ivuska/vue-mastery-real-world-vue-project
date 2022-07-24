@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      events: null
+      events: null,
     }
   },
   //Lifecycle hook (component have more lifecycle hooks), when the component is created it calls the server for the events stored in the 
