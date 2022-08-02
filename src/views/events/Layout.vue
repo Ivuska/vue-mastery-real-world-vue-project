@@ -2,8 +2,16 @@
   <!--We need to wait until we have the event from the server. -->
   <div v-if="event">
     <h1>{{ event.title }}</h1>
-    <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
-    <p>{{ event.description }}</p>
+    <div id="nav">
+      <!-- The :id is required for each child path as we can see in index.js so we do not need to write it here. -->
+      <!-- If  :id is not sent in, it will look and use  :id param that is present. -->
+      <router-link :to="{ name: 'EventDetails' }">Details</router-link>
+      |
+      <router-link :to="{ name: 'EventRegister' }">Register</router-link>
+      |
+      <router-link :to="{ name: 'EventEdit' }">Edit</router-link>
+    </div>
+    <router-view :event="event" />
   </div>
 </template>
 
