@@ -1,5 +1,6 @@
 <template>
   <nav id="nav">
+    <!-- When you call <router-link> it's calling this.$router.push from inside the router-link definition. -->
     <router-link :to="{ name: 'EventList' }">Events</router-link> |
     <router-link :to="{ name: 'AboutView' }">About</router-link>
   </nav>

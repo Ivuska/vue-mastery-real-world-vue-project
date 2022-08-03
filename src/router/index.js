@@ -15,7 +15,7 @@ const routes = [
   },
   {
     //':id' is a dynamic segment
-    path: "/event/:id",
+    path: "/events/:id",
     name: "EventLayout",
     // Send in route parameters as component props.
     props: true,
@@ -38,9 +38,17 @@ const routes = [
       },
     ],
   },
+  {
+    // Match on /event/, and capture everything else in AfterEvent.
+    // Using (.*) so that will include / in the match (by default it doesn't).
+    path: "/event/:afterEvent(.*)",
+    redirect: (to) => {
+      return { path: "/events/" + to.params.afterEvent };
+    },
+  },
 
   {
-    path: "/about",
+    path: "/about-us",
     name: "AboutView",
     component: AboutView,
     // route level code-splitting
