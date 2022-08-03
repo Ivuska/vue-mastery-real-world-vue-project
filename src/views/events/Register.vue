@@ -6,10 +6,19 @@
 <script>
 export default {
   props: ["event"],
+  // Make this GStore object available inside this component.
+  inject: ["GStore"],
   methods: {
     register() {
       // Call to API.
       // If registered then redirect to event details.
+      this.GStore.flashMessage =
+        "You are successfully registered for" + this.event.title;
+
+      // After 3 seconds clear the flasMessage.
+      setTimeout(() => {
+        this.GStore.flashMessage = "";
+      }, 3000);
 
       // Navigate the user to this location.
       // If you want navigate without pushing a history into the browser (effectively disabling the back button),

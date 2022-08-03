@@ -1,13 +1,38 @@
 <template>
-  <nav id="nav">
-    <!-- When you call <router-link> it's calling this.$router.push from inside the router-link definition. -->
-    <router-link :to="{ name: 'EventList' }">Events</router-link> |
-    <router-link :to="{ name: 'AboutView' }">About</router-link>
-  </nav>
-  <router-view />
+  <div id="app">
+    <div id="flashMessage" v-if="GStore.flashMessage">
+      {{ GStore.flashMessage }}
+    </div>
+    <nav id="nav">
+      <!-- When you call <router-link> it's calling this.$router.push from inside the router-link definition. -->
+      <router-link :to="{ name: 'EventList' }">Events</router-link> |
+      <router-link :to="{ name: 'AboutView' }">About</router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
+<script>
+export default {
+  inject: ["GStore"],
+};
+</script>
+
 <style>
+@keyframes yellowfade {
+  from {
+    background: yellow;
+  }
+  to {
+    background: transparent;
+  }
+}
+
+#flashMessage {
+  animation-name: yellowfade;
+  animation-duration: 3s;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
