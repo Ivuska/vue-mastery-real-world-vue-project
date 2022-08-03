@@ -5,6 +5,8 @@ import EventDetails from "../views/events/Details.vue";
 import EventRegister from "../views/events/Register.vue";
 import EventEdit from "../views/events/Edit.vue";
 import AboutView from "../views/AboutView.vue";
+import NotFound from "../views/NotFound.vue";
+import NetworkError from "../views/NetworkError.vue";
 
 const routes = [
   {
@@ -56,6 +58,30 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     //component: () =>
     //import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
+  {
+    // Redirecting the path.I can also use 'alias' => just add 'alias: "name of the new route", but
+    // redirect is better due to the SEO.'
+    path: "/about",
+    redirect: { name: "About" },
+  },
+  {
+    // Match all routes that don't match an existing route.
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: NotFound,
+  },
+  {
+    // We will use /404/event.
+    path: "/404/:resource",
+    name: "404Resource",
+    component: NotFound,
+    props: true,
+  },
+  {
+    path: "/network-error",
+    name: "NetworkError",
+    component: NetworkError,
   },
 ];
 

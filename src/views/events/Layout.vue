@@ -33,7 +33,16 @@ export default {
       })
       //If the request is rejected catch the situation.
       .catch((error) => {
-        console.log(error);
+        // If the event doesn't exist, load 404.
+        if (error.response && error.response.status == 404) {
+          this.$router.push({
+            name: "404Resource",
+            params: { resource: "event" },
+          });
+          // Otherwise assume network error.
+        } else {
+          this.$router.push({ name: "NetworkError" });
+        }
       });
   },
 };

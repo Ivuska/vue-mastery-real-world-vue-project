@@ -56,8 +56,8 @@ export default {
           this.totalEvents = response.headers["x-total-count"];
         })
         // If the request is rejected catch the situation.
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$router.push({ name: "NetworkError" });
         });
     });
   },
