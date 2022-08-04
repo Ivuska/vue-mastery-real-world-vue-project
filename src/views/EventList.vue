@@ -29,7 +29,6 @@
 // @ is an alias to /src
 import EventCard from "@/components/EventCard.vue";
 import EventService from "@/services/EventService.js";
-import NProgress from "nprogress";
 
 export default {
   name: "EventList",
@@ -63,7 +62,6 @@ export default {
   //},
   // Since the component isn't loaded yet, we have no access to 'this'.
   beforeRouteEnter(routeTo, routeFrom, next) {
-    NProgress.start();
     // Parse the number from the route we're navigating to.
     EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
       .then((response) => {
@@ -77,15 +75,12 @@ export default {
       .catch(() => {
         // If the API fails, load the NetworkError page.
         next({ name: "NetworkError" });
-      })
-      .finally(() => {
-        NProgress.done();
       });
   },
   beforeRouteUpdate(routeTo) {
-    NProgress.start();
     // Parse the number from the route we're navigating to.
-    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+    // Return the promise so Vue Router knows to wait on the API call before loeading the page.
+    return EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
       .then((response) => {
         //Switch to using 'this', since the component is already created.
         this.events = response.data;
@@ -94,9 +89,6 @@ export default {
       .catch(() => {
         // If the API fails, load the NetworkError page.
         return { name: "NetworkError" };
-      })
-      .finally(() => {
-        NProgress.done();
       });
   },
   computed: {
