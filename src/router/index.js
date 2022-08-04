@@ -90,6 +90,11 @@ const routes = [
     // redirect is better due to the SEO.'
     path: "/about",
     redirect: { name: "About" },
+    // Route level code-splitting.
+    // This generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   {
     // Match all routes that don't match an existing route.
