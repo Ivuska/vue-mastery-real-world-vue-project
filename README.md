@@ -1,4 +1,6 @@
-# real-world-vue
+# real-world-vue & touring-vue-router course project
+
+https://real-world-vue-and-touring-vue-router.onrender.com/
 
 ## Project setup
 ```
