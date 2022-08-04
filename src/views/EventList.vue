@@ -29,7 +29,7 @@
 // @ is an alias to /src
 import EventCard from "@/components/EventCard.vue";
 import EventService from "@/services/EventService.js";
-import { watchEffect } from "vue";
+import NProgress from "nprogress";
 
 export default {
   name: "EventList",
@@ -46,20 +46,58 @@ export default {
   //Lifecycle hook (component have more lifecycle hooks), when the component is created it calls the server for the events stored in the
   //mocked db on the URL below.
   //Axios (stored in EventService) is asynced and promise based so we need to wait for the request. Achieve that we use then().
-  created() {
-    watchEffect(() => {
-      // This clear out the events on the page, so user knows that API has been called.
-      this.event = null;
-      EventService.getEvents(2, this.page)
-        .then((response) => {
-          this.events = response.data;
-          this.totalEvents = response.headers["x-total-count"];
-        })
-        // If the request is rejected catch the situation.
-        .catch(() => {
-          this.$router.push({ name: "NetworkError" });
+  //created() {
+  //watchEffect(() => {
+  // This clear out the events on the page, so user knows that API has been called.
+  //this.event = null;
+  //EventService.getEvents(2, this.page)
+  //.then((response) => {
+  //this.events = response.data;
+  //this.totalEvents = response.headers["x-total-count"];
+  //})
+  // If the request is rejected catch the situation.
+  //.catch(() => {
+  //this.$router.push({ name: "NetworkError" });
+  //});
+  //});
+  //},
+  // Since the component isn't loaded yet, we have no access to 'this'.
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    NProgress.start();
+    // Parse the number from the route we're navigating to.
+    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+      .then((response) => {
+        // Continue routing and once component is loaded, set these values.
+        // We are using 'comp'(as in component) in the docs is 'vm'(as in View Model).
+        next((comp) => {
+          comp.events = response.data;
+          comp.totalEvents = response.headers["x-total-count"];
         });
-    });
+      })
+      .catch(() => {
+        // If the API fails, load the NetworkError page.
+        next({ name: "NetworkError" });
+      })
+      .finally(() => {
+        NProgress.done();
+      });
+  },
+  beforeRouteUpdate(routeTo) {
+    NProgress.start();
+    // Parse the number from the route we're navigating to.
+    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+      .then((response) => {
+        //Switch to using 'this', since the component is already created.
+        this.events = response.data;
+        this.totalEvents = response.headers["x-total-count"];
+      })
+      .catch(() => {
+        // If the API fails, load the NetworkError page.
+        return { name: "NetworkError" };
+      })
+      .finally(() => {
+        NProgress.done();
+      });
   },
   computed: {
     hasNextPage() {
